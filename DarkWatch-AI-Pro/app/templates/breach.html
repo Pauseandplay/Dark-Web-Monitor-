@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head">
+    <h1>Email Breach Monitor</h1>
+    <p>Check email exposure using a legal breach-intelligence API or safe demo mode.</p>
+</section>
+
+<form class="scan-form" method="POST">
+    <input type="email" name="email" placeholder="Enter email address" required>
+    <button class="btn primary" type="submit">Run Scan</button>
+</form>
+
+{% if result %}
+<section class="risk-card">
+    <h2>{{ result.email }}</h2>
+    <div class="score">{{ result.risk.score }}</div>
+    <p class="level">{{ result.risk.level }} Risk</p>
+    <p>{{ result.risk.recommendation }}</p>
+    <form action="/report" method="POST">
+        <input type="hidden" name="email" value="{{ result.email }}">
+        <button class="btn" type="submit">Download PDF Report</button>
+    </form>
+</section>
+
+<section class="panel">
+    <h2>Breach Findings</h2>
+    {% for breach in result.breaches %}
+    <div class="finding">
+        <h3>{{ breach.name }} <span>{{ breach.breach_date }}</span></h3>
+        <p><strong>Domain:</strong> {{ breach.domain }}</p>
+        <p><strong>Data:</strong> {{ breach.data_classes|join(", ") }}</p>
+        <p>{{ breach.description|safe }}</p>
+    </div>
+    {% else %}
+    <p>No breaches found from configured source.</p>
+    {% endfor %}
+</section>
+{% endif %}
+{% endblock %}

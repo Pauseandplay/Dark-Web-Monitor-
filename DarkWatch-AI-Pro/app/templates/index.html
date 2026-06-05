@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">Cybersecurity Portfolio Project</p>
+        <h1>AI-Powered Breach & Threat Intelligence Dashboard</h1>
+        <p class="subtitle">Monitor leaked email exposure, analyze threat indicators, generate risk scores, and export professional reports.</p>
+        <div class="actions">
+            <a class="btn primary" href="/breach">Scan Email</a>
+            <a class="btn" href="/threats">View Feeds</a>
+        </div>
+    </div>
+    <div class="terminal-card">
+        <span>$ darkwatch scan --asset ayush@example.com</span>
+        <span>risk_score: 68</span>
+        <span>alerts: password_exposure, phishing_domain</span>
+        <span>status: remediation_required</span>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <div class="stat"><span>{{ stats.monitored_assets }}</span><p>Assets Monitored</p></div>
+    <div class="stat"><span>{{ stats.alerts }}</span><p>Active Alerts</p></div>
+    <div class="stat"><span>{{ stats.risk_score }}</span><p>Risk Score</p></div>
+    <div class="stat"><span>{{ stats.feeds }}</span><p>Intel Feeds</p></div>
+</section>
+
+<section class="panel">
+    <div class="panel-head">
+        <h2>Recent Threat Intelligence</h2>
+        <a href="/threats">Open full feed</a>
+    </div>
+    <div class="table">
+        {% for item in feed %}
+        <div class="row">
+            <span>{{ item.type }}</span>
+            <strong>{{ item.indicator }}</strong>
+            <em class="badge {{ item.severity|lower }}">{{ item.severity }}</em>
+            <small>{{ item.source }}</small>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

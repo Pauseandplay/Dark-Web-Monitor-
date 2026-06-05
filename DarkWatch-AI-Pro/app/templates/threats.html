@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head">
+    <h1>Threat Intelligence Feed</h1>
+    <p>Public OSINT-style indicators from configured feeds or demo data.</p>
+</section>
+
+<section class="panel">
+    <div class="table">
+        {% for item in feed %}
+        <div class="row">
+            <span>{{ item.type }}</span>
+            <strong>{{ item.indicator }}</strong>
+            <em class="badge {{ item.severity|lower }}">{{ item.severity }}</em>
+            <small>{{ item.first_seen }} · {{ item.source }}</small>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

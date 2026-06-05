@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-head">
+    <h1>IOC Lookup</h1>
+    <p>Search IPs, domains, URLs, and hashes inside your configured intelligence feed.</p>
+</section>
+
+<form class="scan-form" method="POST">
+    <input name="query" placeholder="IP, domain, URL, or hash" required>
+    <button class="btn primary" type="submit">Lookup</button>
+</form>
+
+{% if result %}
+<section class="panel">
+    <h2>{{ result.query }}</h2>
+    <p>Type: <strong>{{ result.type }}</strong></p>
+    <p>Status: <strong>{{ result.status }}</strong></p>
+
+    {% for item in result.matches %}
+    <div class="finding">
+        <h3>{{ item.type }} <span>{{ item.severity }}</span></h3>
+        <p>{{ item.indicator }}</p>
+        <small>{{ item.source }}</small>
+    </div>
+    {% endfor %}
+</section>
+{% endif %}
+{% endblock %}
